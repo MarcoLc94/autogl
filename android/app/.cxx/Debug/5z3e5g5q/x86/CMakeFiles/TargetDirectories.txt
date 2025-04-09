@@ -1,0 +1,2 @@
+/home/bitfarm/Documentos/AutoGL/autogl/android/app/.cxx/Debug/5z3e5g5q/x86/CMakeFiles/edit_cache.dir
+/home/bitfarm/Documentos/AutoGL/autogl/android/app/.cxx/Debug/5z3e5g5q/x86/CMakeFiles/rebuild_cache.dir

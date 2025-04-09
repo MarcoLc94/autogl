@@ -1,0 +1,1 @@
+/home/bitfarm/Documentos/AutoGL/autogl/build/app/intermediates/cxx/Debug/5z3e5g5q/obj/x86_64
