@@ -1,0 +1,1 @@
+/home/bitfarm/Documentos/AutoGL/autogl/build/app/intermediates/cxx/RelWithDebInfo/4y6a2w4a/obj/x86

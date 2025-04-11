@@ -4,7 +4,7 @@ import 'package:autogl/widgets/sidebar.dart';
 import '../services/secure/secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './home_screen.dart';
+import './purchase_screen.dart';
 import '../services/logs/log.servic.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class LayoutScreenState extends State<LayoutScreen> {
   }
 
   // Mapa de índices a widgets
-  final List<Widget> _pages = [OrdersScreen()];
+  final List<Widget> _pages = [PurchaseScreen()];
 
   // Cambiar de página
   void _selectPage(int index) {
@@ -340,12 +340,12 @@ class LayoutScreenState extends State<LayoutScreen> {
         onTap: _selectPage, // Cambia de página al tocar un ícono
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.shopping_bag),
+            label: 'Compras',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.other_houses),

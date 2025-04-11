@@ -1,0 +1,2 @@
+/home/bitfarm/Documentos/AutoGL/autogl/android/app/.cxx/RelWithDebInfo/4y6a2w4a/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/bitfarm/Documentos/AutoGL/autogl/android/app/.cxx/RelWithDebInfo/4y6a2w4a/arm64-v8a/CMakeFiles/rebuild_cache.dir

@@ -36,31 +36,44 @@ class OrderCard extends StatelessWidget {
               children: [
                 Text(
                   "No. Pedido: $orderNumber",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.camera_alt,
-                      color: Theme.of(context).colorScheme.primary),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
                   onPressed: onAttachPhoto,
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            Text("Vehículo: $vehicle"),
-            Text("Pieza: $part"),
-            Text("Proveedor: $supplier"),
+            Text(
+              "Vehículo: $vehicle",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+            Text(
+              "Pieza: $part",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+            Text(
+              "Proveedor: $supplier",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Monto: $amount $currency",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
                 ),
               ],
             ),

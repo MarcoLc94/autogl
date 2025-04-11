@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart'; // Importa Provider
 import '../models/app_state.dart'; // Asegúrate de importar AppState
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class Navbar extends StatelessWidget implements PreferredSizeWidget {
   Navbar({super.key});
@@ -42,6 +43,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.menu,
           size: 40,
+          color: Theme.of(context).colorScheme.secondaryContainer,
         ),
         onPressed: () => (Scaffold.of(context).openDrawer()),
       ),
@@ -50,20 +52,19 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.only(right: 10.0),
           child: InkWell(
             onTap: () => _showUserInfoModal(context),
-            child: ClipOval(
-              child: Image.asset(
-                'assets/images/user.png',
-                width: 40, // Ajusta el tamaño al deseado
-                height: 40,
-                fit: BoxFit.cover, // Asegura que la imagen se ajuste al círculo
-              ),
+            child: Icon(
+              Symbols.settings, // Ícono de engrane/ajustes
+              size: 40, // Tamaño equivalente al que tenías
+              color: Theme.of(context)
+                  .colorScheme
+                  .secondaryContainer, // Color del ícono (ajústalo según tu diseño)
             ),
           ),
         ),
       ],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.0)),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.0)),
+      // ),
     );
   }
 
@@ -152,11 +153,13 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                             Title(
                                               color: Colors.black,
                                               child: Text(
-                                                "Mi cuenta",
+                                                "Configuracion",
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 20,
-                                                ),
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 20,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurfaceVariant),
                                               ),
                                             ),
                                             const SizedBox(height: 30),
@@ -174,34 +177,35 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                     Text(
                                                       '@${userInfo['username']}',
                                                       style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .colorScheme
+                                                              .onSurfaceVariant),
                                                     ),
                                                     SizedBox(height: 10),
                                                     // Toggle para biometría
                                                     GenericToggle(
                                                       type:
                                                           ToggleType.biometric,
-                                                      initialValue: appState
-                                                          .useBiometrics,
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        // Opcional: puedes agregar lógica adicional aquí si necesitas
+                                                        print(
+                                                            'Biometric toggle changed to: $value');
+                                                      },
                                                     ),
                                                     SizedBox(height: 20),
                                                     // Toggle para datos móviles
                                                     GenericToggle(
                                                       type:
                                                           ToggleType.mobileData,
-                                                      initialValue: appState
-                                                          .useMobileData,
                                                       onChanged: (value) {},
                                                     ),
                                                     SizedBox(height: 20),
                                                     // Toggle para modo oscuro
                                                     GenericToggle(
                                                       type: ToggleType.darkMode,
-                                                      initialValue:
-                                                          appState.isDarkMode,
                                                       onChanged: (value) {},
                                                     ),
                                                   ],
@@ -226,7 +230,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .primary,
+                                                                .onSurfaceVariant,
                                                           ),
                                                           const SizedBox(
                                                               width: 10),
@@ -237,10 +241,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                                   TextOverflow
                                                                       .ellipsis,
                                                               maxLines: 2,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          16),
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurfaceVariant),
                                                             ),
                                                           ),
                                                         ],
@@ -257,7 +263,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .primary,
+                                                                .onSurfaceVariant,
                                                           ),
                                                           const SizedBox(
                                                               width: 10),
@@ -268,10 +274,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                                   TextOverflow
                                                                       .ellipsis,
                                                               maxLines: 2,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          16),
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurfaceVariant),
                                                             ),
                                                           ),
                                                         ],
@@ -288,7 +296,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .primary,
+                                                                .onSurfaceVariant,
                                                           ),
                                                           const SizedBox(
                                                               width: 6),
@@ -299,10 +307,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                                   TextOverflow
                                                                       .ellipsis,
                                                               maxLines: 2,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          16),
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurfaceVariant),
                                                             ),
                                                           ),
                                                         ],
@@ -319,7 +329,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .primary,
+                                                                .onSurfaceVariant,
                                                           ),
                                                           const SizedBox(
                                                               width: 6),
@@ -330,10 +340,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                                   TextOverflow
                                                                       .ellipsis,
                                                               maxLines: 2,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          16),
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurfaceVariant),
                                                             ),
                                                           ),
                                                         ],
@@ -350,7 +362,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .primary,
+                                                                .onSurfaceVariant,
                                                           ),
                                                           const SizedBox(
                                                               width: 6),
@@ -361,10 +373,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                                   TextOverflow
                                                                       .ellipsis,
                                                               maxLines: 2,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          16),
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurfaceVariant),
                                                             ),
                                                           ),
                                                         ],
@@ -387,7 +401,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                       BorderSide(
                                                         color: Theme.of(context)
                                                             .colorScheme
-                                                            .primary,
+                                                            .onSurfaceVariant,
                                                         width: 2.0,
                                                       ),
                                                     ),
@@ -429,16 +443,16 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                             .power_settings_new,
                                                         color: Theme.of(context)
                                                             .colorScheme
-                                                            .primary,
+                                                            .onSurfaceVariant,
                                                       ),
                                                       SizedBox(width: 8),
                                                       Text(
                                                         'Cerrar sesión',
                                                         style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .colorScheme
+                                                              .onSurfaceVariant,
                                                         ),
                                                       ),
                                                     ],
@@ -463,7 +477,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                             size: 35,
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .primary,
+                                                .secondaryContainer,
                                           ),
                                         ),
                                       ),

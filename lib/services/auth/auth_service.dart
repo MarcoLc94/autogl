@@ -12,32 +12,31 @@ class AuthService {
   // Método para hacer login
   Future<String> login(String user, String password) async {
     print("intentando con credenciales: $user y $password");
-    try {
-      // final response = await http.post(
-      //   Uri.parse('$baseUrl/auth/login'),
-      //   headers: {'Content-Type': 'application/json'},
-      //   body: jsonEncode({'username': user, 'password': password}),
-      // );
+    // try {
+    //   final response = await http.post(
+    //     Uri.parse('$baseUrl/login'),
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: jsonEncode({'username': user, 'password': password}),
+    //   );
 
-      // if (response.statusCode == 200) {
-      //   final data = jsonDecode(response.body);
-      //   String token = data['token'];
-      //   saveUser(data['user']);
-      //   print("Los datos de user son: $data");
-      //   saveToken(token);
+    //   if (response.statusCode == 200) {
+    //     final data = jsonDecode(response.body);
+    //     String token = data['token'];
+    //     // saveUser(data['user']);
+    //     // print("Los datos de user son: $data");
+    //     saveToken(token);
 
-      //   return token; // Login exitoso
-      // } else {
-      //   // Error en la solicitud
-      //   return "Error"; // Login fallido
-      // }
+    //     return token; // Login exitoso
+    //   } else {
+    //     // Error en la solicitud
+    //     return "Error"; // Login fallido
+    //   }
+    // } catch (e) {
+    //   print("El error es: $e");
 
-      if (true) return "true";
-    } catch (e) {
-      print("El error es: $e");
-
-      return "Error";
-    }
+    //   return "Error";
+    // }
+    return "true";
   }
 
   // Método para obtener el token desde SharedPreferences

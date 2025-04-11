@@ -5,9 +5,9 @@ enum ColorType { green, blue, red, orange }
 
 Map<ColorType, int> colors = {
   ColorType.green: 0xFF79a341,
-  ColorType.blue: 0x194583, // Ejemplo: un color azul
+  ColorType.blue: 0xFF194583, // Ejemplo: un color azul
   ColorType.red: 0xFFFF0000, // Ejemplo: un color rojo
-  ColorType.orange: 0xCC600F,
+  ColorType.orange: 0xFFCC600F,
 };
 
 class ToastsHelper {

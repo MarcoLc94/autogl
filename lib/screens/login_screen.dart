@@ -48,7 +48,7 @@ class LoginScreenState extends State<LoginScreen>
   final appState = AppState();
 
   //Instancia para leer token JWT
-  final authService = AuthService(baseUrl: '');
+  final authService = AuthService(baseUrl: dotenv.env['BASE_URL']);
   // Para saber si el campo ha sido tocado
   bool _userTouched = false;
   bool _passwordTouched = false;
@@ -390,7 +390,7 @@ class LoginScreenState extends State<LoginScreen>
       String user = _userController.text;
       String password = _passwordController.text;
 
-      print('Las credenciales son $user@bitfarm.com.mx y $password');
+      print('Las credenciales son $user y $password');
 
       if (mounted) {
         setState(() {
@@ -510,6 +510,7 @@ class LoginScreenState extends State<LoginScreen>
         level: Level.trace);
     AuthService authService = AuthService(baseUrl: baseUrl);
     String? token = await authService.login(user, password);
+
     LogService.log('Comprobando autenticidad...', level: Level.trace);
     // Si el token es null, significa que el login falló
     if (token.isNotEmpty && token != "Error") {
@@ -909,7 +910,9 @@ class LoginScreenState extends State<LoginScreen>
                                   ),
                                   child: _isLoading
                                       ? CircularProgressIndicator(
-                                          color: Colors.white,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
                                           strokeWidth: 3,
                                         )
                                       : Container(
@@ -980,14 +983,14 @@ class LoginScreenState extends State<LoginScreen>
                     elevation: appState.useBiometrics ? 0 : 0,
                   ),
                   child: _isLoadingBiometric
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
+                      ? CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.onSurface,
                           strokeWidth: 3,
                         )
                       : Icon(
                           Platform.isAndroid ? Icons.fingerprint : Icons.face,
                           color: appState.useBiometrics
-                              ? Colors.white
+                              ? const Color.fromARGB(255, 92, 60, 60)
                               : Colors.grey,
                           size: 32,
                         ),

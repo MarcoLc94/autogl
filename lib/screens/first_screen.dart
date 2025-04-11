@@ -15,7 +15,7 @@ class FirstScreen extends StatelessWidget {
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -23,7 +23,11 @@ class FirstScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
-                  image: AssetImage('assets/logo-bg.png'),
+                  image: AssetImage(
+                    Theme.of(context).brightness == Brightness.dark
+                        ? 'assets/logo-bg-dark.png'
+                        : 'assets/logo-bg.png',
+                  ),
                   width: 250,
                 ),
                 Text(
@@ -31,7 +35,7 @@ class FirstScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 35,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontFamily: "Roboto",
                       fontWeight: FontWeight.w700),
                 ),
@@ -74,7 +78,10 @@ class FirstScreen extends StatelessWidget {
                   ),
                   child: Text(
                     'Olvide mi contraseña',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onPrimary),
                     textAlign: TextAlign.center,
                   ),
                 ),

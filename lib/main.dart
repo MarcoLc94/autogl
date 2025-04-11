@@ -55,6 +55,9 @@ class MyApp extends StatelessWidget {
   ThemeData _buildLightTheme() {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Roboto',
+      iconTheme: const IconThemeData(
+          color: Colors.black, fill: 0, weight: 300, opticalSize: 48),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -65,13 +68,13 @@ class MyApp extends StatelessWidget {
         primary: const Color.fromRGBO(22, 67, 127, 1), // Azul primario
         primaryContainer: const Color.fromRGBO(15, 50, 100, 1),
         secondary: const Color(0xFFFCD52F), // Amarillo secundario
-        secondaryContainer: const Color(0xFFFCE56F),
+        secondaryContainer: Color.fromRGBO(22, 67, 127, 1),
         surface: const Color(0xFFFAFAFA), // Blanco suave
         error: const Color.fromRGBO(219, 84, 97, 1), // Rojo coral
         onPrimary: const Color(0xFFF5F5F5), // Blanco no absoluto
         onSecondary: const Color(0xFF333333), // Negro suave
         onSurface: const Color(0xFF222222), // Texto principal
-        onSurfaceVariant: const Color(0xFF555555), // Texto secundario
+        onSurfaceVariant: Color.fromRGBO(22, 67, 127, 1), // Texto secundario
         onError: const Color(0xFFF5F5F5),
         brightness: Brightness.light,
       ),
@@ -91,6 +94,9 @@ class MyApp extends StatelessWidget {
   ThemeData _buildDarkTheme() {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Roboto',
+      iconTheme: const IconThemeData(
+          color: Color(0xFFFCE56F), fill: 0, weight: 300, opticalSize: 48),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -98,20 +104,29 @@ class MyApp extends StatelessWidget {
         },
       ),
       colorScheme: ColorScheme.dark(
-        primary: const Color.fromRGBO(42, 97, 157, 1), // Azul más claro
+        primary: const Color.fromARGB(255, 59, 59, 59), // Azul más claro
         primaryContainer: const Color.fromRGBO(22, 67, 127, 1),
         secondary: const Color(0xFFFFDF60), // Amarillo más suave
-        secondaryContainer: const Color(0xFFFCD52F),
+        secondaryContainer: const Color.fromARGB(255, 201, 178, 78),
         surface: const Color(0xFF121212), // Casi negro
         error: const Color.fromRGBO(239, 104, 117, 1), // Rojo más brillante
         onPrimary: const Color(0xFFEEEEEE), // Blanco suave
         onSecondary: const Color(0xFF222222), // Negro suave
-        onSurface: const Color(0xFFEEEEEE), // Texto principal
-        onSurfaceVariant: const Color(0xFFAAAAAA), // Texto secundario
+        onSurface: const Color.fromARGB(255, 56, 56, 56), // Texto principal
+        onSurfaceVariant:
+            const Color.fromARGB(255, 224, 224, 224), // Texto secundario
         onError: const Color(0xFF121212),
         brightness: Brightness.dark,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
+      cardTheme: CardTheme(
+        color: const Color(0xFF222222),
+        elevation: 2,
+        margin: const EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
       // Componentes adicionales
     );
   }

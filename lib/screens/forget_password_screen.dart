@@ -267,7 +267,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: _isEmailValid()
-                                      ? Theme.of(context).colorScheme.onPrimary
+                                      ? Theme.of(context).colorScheme.surface
                                       : Colors.grey.withValues(alpha: 0.5),
                                 ),
                               ),

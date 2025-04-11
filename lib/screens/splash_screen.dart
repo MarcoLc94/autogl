@@ -87,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: ScaleTransition(
           scale: _scaleAnimation,
@@ -102,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen>
                     width: 250,
                     height: 250,
                     child: Image.asset(
-                      'assets/logo-bg.png',
+                      'assets/logo-bg-dark.png',
                       fit: BoxFit.contain,
                     ),
                   ),
