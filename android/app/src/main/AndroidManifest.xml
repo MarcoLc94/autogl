@@ -1,6 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+        <!-- Permisos para cámara y almacenamiento -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Necesario para Android 13+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <application
-        android:label="autogl"
+        android:label="Auto Elite"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

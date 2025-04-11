@@ -22,9 +22,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppState>(
       builder: (context, appState, child) {
+        // Obtener el tema base (light/dark)
+        final ThemeData baseTheme =
+            appState.isDarkMode ? _buildDarkTheme() : _buildLightTheme();
+
+        // Combinar con las personalizaciones del cursor
+        final ThemeData finalTheme = baseTheme.copyWith(
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: baseTheme.colorScheme.onPrimary,
+            selectionColor:
+                baseTheme.colorScheme.onPrimary.withValues(alpha: 0.3),
+            selectionHandleColor: baseTheme.colorScheme.onPrimary,
+          ),
+        );
+
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: appState.isDarkMode ? _buildDarkTheme() : _buildLightTheme(),
+          theme: finalTheme, // Usar el tema combinado
           initialRoute: '/splash',
           routes: {
             '/splash': (context) => const SplashScreen(),
@@ -40,51 +54,65 @@ class MyApp extends StatelessWidget {
 
   ThemeData _buildLightTheme() {
     return ThemeData(
+      useMaterial3: true,
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
           TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
         },
       ),
-      colorScheme: ColorScheme(
+      colorScheme: ColorScheme.light(
+        primary: const Color.fromRGBO(22, 67, 127, 1), // Azul primario
+        primaryContainer: const Color.fromRGBO(15, 50, 100, 1),
+        secondary: const Color(0xFFFCD52F), // Amarillo secundario
+        secondaryContainer: const Color(0xFFFCE56F),
+        surface: const Color(0xFFFAFAFA), // Blanco suave
+        error: const Color.fromRGBO(219, 84, 97, 1), // Rojo coral
+        onPrimary: const Color(0xFFF5F5F5), // Blanco no absoluto
+        onSecondary: const Color(0xFF333333), // Negro suave
+        onSurface: const Color(0xFF222222), // Texto principal
+        onSurfaceVariant: const Color(0xFF555555), // Texto secundario
+        onError: const Color(0xFFF5F5F5),
         brightness: Brightness.light,
-        primary: Color.fromARGB(255, 218, 124, 47),
-        onPrimary: Colors.white,
-        secondary: Color.fromARGB(255, 163, 137, 65),
-        onSecondary: Colors.white,
-        error: Colors.red,
-        onError: Colors.white,
-        surface: const Color.fromARGB(255, 141, 126, 126),
-        onSurface: Colors.black,
       ),
-      useMaterial3: true,
-      primarySwatch: Colors.orange,
       visualDensity: VisualDensity.adaptivePlatformDensity,
+      // Componentes adicionales
+      cardTheme: CardTheme(
+        color: const Color(0xFFFFFFFF),
+        elevation: 1,
+        margin: const EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
     );
   }
 
   ThemeData _buildDarkTheme() {
     return ThemeData(
+      useMaterial3: true,
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
           TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
         },
       ),
-      colorScheme: ColorScheme(
+      colorScheme: ColorScheme.dark(
+        primary: const Color.fromRGBO(42, 97, 157, 1), // Azul más claro
+        primaryContainer: const Color.fromRGBO(22, 67, 127, 1),
+        secondary: const Color(0xFFFFDF60), // Amarillo más suave
+        secondaryContainer: const Color(0xFFFCD52F),
+        surface: const Color(0xFF121212), // Casi negro
+        error: const Color.fromRGBO(239, 104, 117, 1), // Rojo más brillante
+        onPrimary: const Color(0xFFEEEEEE), // Blanco suave
+        onSecondary: const Color(0xFF222222), // Negro suave
+        onSurface: const Color(0xFFEEEEEE), // Texto principal
+        onSurfaceVariant: const Color(0xFFAAAAAA), // Texto secundario
+        onError: const Color(0xFF121212),
         brightness: Brightness.dark,
-        primary: Color.fromARGB(255, 83, 78, 67),
-        onPrimary: const Color.fromARGB(255, 179, 170, 170),
-        secondary: Color.fromARGB(255, 214, 98, 20),
-        onSecondary: Colors.black,
-        error: Colors.red,
-        onError: Colors.white,
-        surface: Colors.grey[900]!,
-        onSurface: Colors.white,
       ),
-      useMaterial3: true,
-      primarySwatch: Colors.orange,
       visualDensity: VisualDensity.adaptivePlatformDensity,
+      // Componentes adicionales
     );
   }
 }
