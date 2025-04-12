@@ -134,14 +134,17 @@ class GenericToggleState extends State<GenericToggle> {
                         isCurrentlyOn
                             ? 'Desactivar uso con datos móviles'
                             : 'Activar uso con datos móviles',
-                        style: const TextStyle(fontSize: 18),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Icon(
                         Icons.smartphone,
-                        color: const Color(0xFF79a341),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
                         size: 50,
                       ),
                     ),
@@ -152,7 +155,10 @@ class GenericToggleState extends State<GenericToggle> {
                         isCurrentlyOn
                             ? 'Estás desactivando el uso con datos móviles. ¿Deseas continuar?'
                             : 'Estás activando el uso con datos móviles. Esto puede revertirse. ¿Deseas continuar?',
-                        style: const TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -164,26 +170,34 @@ class GenericToggleState extends State<GenericToggle> {
                           onPressed: () => Navigator.of(context).pop(true),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: const Color(0xFF79a341),
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0)),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Sí',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.surface),
                           ),
                         ),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: Colors.grey.shade200,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0)),
                           ),
                           child: Text(
                             'Cancelar',
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ],
