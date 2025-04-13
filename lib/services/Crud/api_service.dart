@@ -8,7 +8,7 @@ class ApiService {
   ApiService({required this.baseUrl});
 
   // Método para obtener el token de SharedPreferences
-  Future<String?> _getToken() async {
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs
         .getString('auth_token'); // Obtiene el token con la clave 'auth_token'

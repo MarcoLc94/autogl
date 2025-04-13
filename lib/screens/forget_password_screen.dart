@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../models/app_state.dart'; // Asegúrate de tener esta importación
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -53,7 +51,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context);
+    // final appState = Provider.of<AppState>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -165,7 +163,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         color: Theme.of(context)
                             .colorScheme
                             .onPrimary
-                            .withOpacity(0.8),
+                            .withValues(alpha: 0.8),
                       ),
                     ),
                     const SizedBox(height: 30),

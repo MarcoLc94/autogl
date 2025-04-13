@@ -35,7 +35,7 @@ class DashboardScreen extends StatelessWidget {
             Text(
               "¡Hola, $userName!",
               style: theme.textTheme.headlineSmall?.copyWith(
-                color: colorScheme.secondary,
+                color: colorScheme.secondaryContainer,
               ),
             ),
             const SizedBox(height: 8),
@@ -53,13 +53,13 @@ class DashboardScreen extends StatelessWidget {
                   icon: Icons.shopping_cart,
                   label: "Este mes",
                   value: "$totalComprasMes",
-                  color: colorScheme.secondary,
+                  color: colorScheme.secondaryContainer,
                 ),
                 _ResumenCard(
                   icon: Icons.photo,
                   label: "Sin foto",
                   value: "$sinFoto",
-                  color: colorScheme.secondary,
+                  color: colorScheme.secondaryContainer,
                 ),
                 _ResumenCard(
                   icon: Icons.sync_problem,
@@ -72,15 +72,15 @@ class DashboardScreen extends StatelessWidget {
             const SizedBox(height: 32),
             Text("Compras recientes",
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onPrimary,
+                  color: colorScheme.onSurfaceVariant,
                 )),
             const SizedBox(height: 12),
             Column(
               children: comprasRecientes.map((compra) {
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading:
-                      Icon(Icons.receipt_long, color: colorScheme.secondary),
+                  leading: Icon(Icons.receipt_long,
+                      color: colorScheme.secondaryContainer),
                   title: Text(
                     compra["titulo"]!,
                     style: TextStyle(color: colorScheme.onPrimary),
@@ -105,19 +105,19 @@ class DashboardScreen extends StatelessWidget {
                 _QuickActionButton(
                   icon: Icons.add,
                   label: "Nueva compra",
-                  color: colorScheme.secondary,
+                  color: colorScheme.secondaryContainer,
                   onTap: () {},
                 ),
                 _QuickActionButton(
                   icon: Icons.photo_library,
                   label: "Galería",
-                  color: colorScheme.secondary,
+                  color: colorScheme.secondaryContainer,
                   onTap: () {},
                 ),
                 _QuickActionButton(
                   icon: Icons.search,
                   label: "Buscar",
-                  color: colorScheme.secondary,
+                  color: colorScheme.secondaryContainer,
                   onTap: () {},
                 ),
               ],
@@ -158,7 +158,7 @@ class _ResumenCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(value,
                   style: theme.textTheme.titleLarge?.copyWith(
-                    color: colorScheme.onPrimary,
+                    color: colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.bold,
                   )),
               Text(label,
@@ -198,7 +198,7 @@ class _QuickActionButton extends StatelessWidget {
         width: 118,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.15),
+          color: color.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -207,7 +207,7 @@ class _QuickActionButton extends StatelessWidget {
             const SizedBox(height: 6),
             Text(label,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: colorScheme.onPrimary)),
+                style: TextStyle(color: colorScheme.onSurfaceVariant)),
           ],
         ),
       ),

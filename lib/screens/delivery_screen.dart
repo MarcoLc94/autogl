@@ -24,7 +24,7 @@ class DeliveryScreen extends StatelessWidget {
               Icon(
                 Icons.local_shipping_outlined,
                 size: 80,
-                color: colorScheme.secondary,
+                color: colorScheme.secondaryContainer,
               ),
               const SizedBox(height: 20),
               Text(
@@ -41,7 +41,7 @@ class DeliveryScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  color: colorScheme.onPrimary.withOpacity(0.7),
+                  color: colorScheme.onPrimary.withValues(alpha: 0.7),
                 ),
               ),
             ],

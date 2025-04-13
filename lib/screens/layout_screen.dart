@@ -1,5 +1,7 @@
 import 'package:autogl/screens/dashboard_screen.dart';
 import 'package:autogl/screens/delivery_screen.dart';
+import 'package:autogl/screens/finding.dart';
+import 'package:autogl/screens/photos_screen.dart';
 import 'package:autogl/widgets/sidebar.dart';
 import '../services/secure/secure_storage.dart';
 import 'package:logger/logger.dart';
@@ -58,8 +60,10 @@ class LayoutScreenState extends State<LayoutScreen> {
   // Mapa de índices a widgets
   final List<Widget> _pages = [
     PurchaseScreen(),
+    FindingScreen(),
+    PhotosScreen(),
+    DeliveryScreen(),
     DashboardScreen(),
-    DeliveryScreen()
   ];
 
   // Cambiar de página
@@ -122,9 +126,18 @@ class LayoutScreenState extends State<LayoutScreen> {
     }
   }
 
+  int _getBottomNavIndex(int pageIndex) {
+    // Mapea el índice de _pages al índice del BottomNavigationBar
+    if (pageIndex == 0) return 0; // Compras
+    if (pageIndex == 4) return 1; // Inicio (Dashboard)
+    if (pageIndex == 3) return 2; // Envíos
+    return 0; // Por defecto, Compras
+  }
+
   void showDataConnectionModal() async {
     final secureStorageService = SecureStorageService();
     final currentUser = await secureStorageService.readMap('currentUser');
+    if (!mounted) return;
     if (!isModalOpen && currentUser?['mobileData'] != 'on') {
       isModalOpen = true;
       showDialog(
@@ -150,7 +163,7 @@ class LayoutScreenState extends State<LayoutScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Icon(
                       Icons.smartphone,
-                      color: Color(0xFF79a341),
+                      color: Theme.of(context).colorScheme.secondaryContainer,
                       size: 50,
                     ),
                   ),
@@ -174,11 +187,13 @@ class LayoutScreenState extends State<LayoutScreen> {
                         },
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: Color(0xFF79a341),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                             shape: RoundedRectangleBorder()),
                         child: Text(
                           'Sí',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
                       TextButton(
@@ -189,11 +204,13 @@ class LayoutScreenState extends State<LayoutScreen> {
                         },
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: Colors.grey.shade200,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
                             shape: RoundedRectangleBorder()),
                         child: Text(
                           'No',
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                       ),
                     ],
@@ -228,7 +245,7 @@ class LayoutScreenState extends State<LayoutScreen> {
                     width: 300,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -243,7 +260,7 @@ class LayoutScreenState extends State<LayoutScreen> {
                       children: [
                         Icon(
                           Icons.wifi_off,
-                          color: Color(0xFF79a341),
+                          color: Theme.of(context).colorScheme.primary,
                           size: 50,
                         ),
                         SizedBox(height: 20),
@@ -333,27 +350,24 @@ class LayoutScreenState extends State<LayoutScreen> {
           selectedPageIndex], // Muestra la página correspondiente al índice
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        selectedItemColor: Theme.of(context)
-            .colorScheme
-            .secondary, // Color del ítem seleccionado
-        unselectedItemColor: Theme.of(context)
-            .colorScheme
-            .onPrimary, // Color de los ítems no seleccionados
-        currentIndex: selectedPageIndex, // Índice seleccionado
-        onTap: _selectPage, // Cambia de página al tocar un ícono
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
+        currentIndex:
+            _getBottomNavIndex(selectedPageIndex), // Mapea el índice actual
+        onTap: (index) {
+          // Mapeo inverso: BottomNav index -> _pages index
+          final pageIndex = index == 0
+              ? 0
+              : index == 1
+                  ? 4
+                  : 3;
+          _selectPage(pageIndex);
+        },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Compras',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.send),
-            label: 'Envios',
-          ),
+              icon: Icon(Icons.shopping_bag), label: 'Compras'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
+          BottomNavigationBarItem(icon: Icon(Icons.send), label: 'Envios'),
         ],
       ),
     );

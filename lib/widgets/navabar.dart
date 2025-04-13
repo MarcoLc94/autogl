@@ -2,13 +2,19 @@ import 'package:autogl/widgets/generic_toggle.dart';
 import 'package:flutter/material.dart';
 import '../services/auth/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart'; // Importa Provider
-import '../models/app_state.dart'; // Asegúrate de importar AppState
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-class Navbar extends StatelessWidget implements PreferredSizeWidget {
-  Navbar({super.key});
+class Navbar extends StatefulWidget implements PreferredSizeWidget {
+  const Navbar({super.key});
 
+  @override
+  Size get preferredSize => const Size.fromHeight(56.0);
+
+  @override
+  State<Navbar> createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
   final AuthService authService =
       AuthService(baseUrl: 'https://learn.bitfarm.mx/api');
 
@@ -38,6 +44,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       leading: IconButton(
         icon: Icon(
           Icons.menu,
@@ -67,12 +74,11 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  @override
   Size get preferredSize => const Size.fromHeight(56.0);
 
   // Modal con la información del usuario y botón de logout
   void _showUserInfoModal(BuildContext context) {
-    final appState = Provider.of<AppState>(context, listen: false);
+    // final appState = Provider.of<AppState>(context, listen: false);
     Future<void> removeToken() async {
       // Restablecer el flag de la app
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -190,8 +196,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                           ToggleType.biometric,
                                                       onChanged: (value) {
                                                         // Opcional: puedes agregar lógica adicional aquí si necesitas
-                                                        print(
-                                                            'Biometric toggle changed to: $value');
+                                                        // print(
+                                                        //     'Biometric toggle changed to: $value');
                                                       },
                                                     ),
                                                     SizedBox(height: 20),
@@ -426,6 +432,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                                     await prefs.setBool(
                                                         'wasLoggedOut', true);
                                                     removeToken();
+                                                    if (!mounted) return;
                                                     Navigator.pop(
                                                         context); // Cerrar el modal
                                                     Navigator

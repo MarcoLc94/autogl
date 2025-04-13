@@ -390,7 +390,7 @@ class LoginScreenState extends State<LoginScreen>
       String user = _userController.text;
       String password = _passwordController.text;
 
-      print('Las credenciales son $user y $password');
+      // print('Las credenciales son $user y $password');
 
       if (mounted) {
         setState(() {

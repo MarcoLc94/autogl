@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
         primaryContainer: const Color.fromRGBO(15, 50, 100, 1),
         secondary: const Color(0xFFFCD52F), // Amarillo secundario
         secondaryContainer: Color.fromRGBO(22, 67, 127, 1),
-        surface: const Color(0xFFFAFAFA), // Blanco suave
+        surface: const Color.fromARGB(255, 236, 236, 236), // Blanco suave
         error: const Color.fromRGBO(219, 84, 97, 1), // Rojo coral
         onPrimary: const Color(0xFFF5F5F5), // Blanco no absoluto
         onSecondary: const Color(0xFF333333), // Negro suave
@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       // Componentes adicionales
       cardTheme: CardTheme(
-        color: const Color(0xFFFFFFFF),
+        color: const Color.fromARGB(255, 243, 243, 243),
         elevation: 1,
         margin: const EdgeInsets.all(8),
         shape: RoundedRectangleBorder(

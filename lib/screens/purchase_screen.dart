@@ -152,6 +152,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
   // Función para abrir la cámara
   Future<void> _attachPhoto() async {
     final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    if (!mounted) return;
     if (photo != null) {
       // Aquí puedes manejar la foto (subirla, guardarla, etc.)
       ScaffoldMessenger.of(context).showSnackBar(

@@ -43,7 +43,7 @@ class OrderCard extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.camera_alt,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      color: Theme.of(context).colorScheme.secondaryContainer),
                   onPressed: onAttachPhoto,
                 ),
               ],

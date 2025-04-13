@@ -56,7 +56,7 @@ class AuthService {
 
   // Método para hacer login
   Future<String> login(String user, String password) async {
-    print("intentando con credenciales: $user y $password");
+    // print("intentando con credenciales: $user y $password");
     // try {
     //   final response = await http.post(Uri.parse('$baseUrl/login'),
     //       headers: {
