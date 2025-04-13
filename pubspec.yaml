@@ -33,6 +33,10 @@ dependencies:
   loading_indicator: ^3.1.1
   flutter_launcher_icons: ^0.14.3
   intl: ^0.20.2
+  image_picker: ^1.1.2
+  material_symbols_icons: ^4.2815.0
+  dio: ^5.8.0+1
+  math_expressions: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -44,7 +48,7 @@ flutter:
   assets:
     - assets/
     - .env
-    - assets/images/splash_image.png
+    - assets/images/
 
 flutter_icons:
   android: true
