@@ -44,12 +44,12 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       leading: IconButton(
         icon: Icon(
           Icons.menu,
           size: 40,
-          color: Theme.of(context).colorScheme.secondaryContainer,
+          color: Theme.of(context).colorScheme.inversePrimary,
         ),
         onPressed: () => (Scaffold.of(context).openDrawer()),
       ),
@@ -63,7 +63,7 @@ class _NavbarState extends State<Navbar> {
               size: 40, // Tamaño equivalente al que tenías
               color: Theme.of(context)
                   .colorScheme
-                  .secondaryContainer, // Color del ícono (ajústalo según tu diseño)
+                  .inversePrimary, // Color del ícono (ajústalo según tu diseño)
             ),
           ),
         ),
@@ -136,6 +136,9 @@ class _NavbarState extends State<Navbar> {
                                 onTap:
                                     () {}, // Evitar que el tap dentro del modal cierre el modal
                                 child: Dialog(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryFixed,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                         8.0), // Esquinas redondeadas
@@ -289,7 +292,7 @@ class _NavbarState extends State<Navbar> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(height: 15),
+                                                      SizedBox(height: 38),
                                                       Row(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
@@ -322,7 +325,7 @@ class _NavbarState extends State<Navbar> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(height: 20),
+                                                      SizedBox(height: 30),
                                                       Row(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment

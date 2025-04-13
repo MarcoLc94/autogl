@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
+
+  Future<String> _getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userSesion') ??
+        'usuario'; // Valor por defecto si no existe
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final userName = "Carlos";
     final totalComprasMes = 8;
     final sinFoto = 2;
     final sinSync = 1;
 
     final comprasRecientes = [
-      {"titulo": "Compra supermercado", "fecha": "2025-04-10"},
-      {"titulo": "Compra papelería", "fecha": "2025-04-09"},
-      {"titulo": "Compra refacciones", "fecha": "2025-04-08"},
+      {"titulo": "Compra de motor completo", "fecha": "2025-04-10"},
+      {"titulo": "Compra de faros delanteros", "fecha": "2025-04-09"},
+      {"titulo": "Compra de kit de frenos", "fecha": "2025-04-08"},
+      {"titulo": "Compra de llantas 18\"", "fecha": "2025-04-07"},
+      {"titulo": "Compra de batería 12V", "fecha": "2025-04-06"},
+      {"titulo": "Compra de amortiguadores", "fecha": "2025-04-05"},
+      {"titulo": "Compra de filtros de aire", "fecha": "2025-04-04"},
     ];
 
     return Scaffold(
@@ -32,11 +42,19 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "¡Hola, $userName!",
-              style: theme.textTheme.headlineSmall?.copyWith(
-                color: colorScheme.secondaryContainer,
-              ),
+            FutureBuilder<String>(
+              future: _getUsername(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text('@cargando...'); // Mientras carga
+                }
+                return Text(
+                  "¡Hola, ${snapshot.data}!",
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    color: colorScheme.secondaryContainer,
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 8),
             Text(
@@ -75,27 +93,45 @@ class DashboardScreen extends StatelessWidget {
                   color: colorScheme.onSurfaceVariant,
                 )),
             const SizedBox(height: 12),
-            Column(
-              children: comprasRecientes.map((compra) {
-                return ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.receipt_long,
-                      color: colorScheme.secondaryContainer),
-                  title: Text(
-                    compra["titulo"]!,
-                    style: TextStyle(color: colorScheme.onPrimary),
-                  ),
-                  subtitle: Text(
-                    "Fecha: ${compra["fecha"]}",
-                    style: TextStyle(color: colorScheme.onSurfaceVariant),
-                  ),
-                );
-              }).toList(),
+            Container(
+              height: MediaQuery.of(context).size.height *
+                  0.22, // 35% del alto de pantalla
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: colorScheme.outline.withValues(alpha: 0.2)),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Scrollbar(
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  itemCount: comprasRecientes.length,
+                  itemBuilder: (context, index) {
+                    final compra = comprasRecientes[index];
+                    return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 4),
+                      leading: Icon(Icons.receipt_long,
+                          color: colorScheme.secondaryContainer),
+                      title: Text(
+                        compra["titulo"]!,
+                        style: TextStyle(color: colorScheme.onSurfaceVariant),
+                      ),
+                      subtitle: Text(
+                        "Fecha: ${compra["fecha"]}",
+                        style: TextStyle(
+                          color: colorScheme.onSurfaceVariant
+                              .withValues(alpha: 0.7),
+                          fontSize: 12,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
             const SizedBox(height: 32),
             Text("Accesos rápidos",
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onPrimary,
+                  color: colorScheme.onSurfaceVariant,
                 )),
             const SizedBox(height: 12),
             Wrap(

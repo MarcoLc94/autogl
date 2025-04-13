@@ -20,15 +20,17 @@ class _PhotosScreenState extends State<PhotosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
           'Agregar fotos',
-          style:
-              TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
         centerTitle: true,
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

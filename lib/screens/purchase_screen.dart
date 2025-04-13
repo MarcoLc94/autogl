@@ -170,6 +170,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -177,15 +178,14 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
           icon: Icon(
             Symbols.shopping_cart,
             size: 24,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            color: Theme.of(context).colorScheme.onPrimary,
           ), // Icono de orden de compra
           onPressed: () {}, // Puedes dejarlo vacío o agregar una acción
         ),
         title: Text(
           "Órdenes de Compra",
           textAlign: TextAlign.center,
-          style:
-              TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
         actions: [
           // Aquí colocamos el ícono de sync al final
@@ -193,12 +193,14 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
             icon: Icon(
               Symbols.sync,
               size: 30,
-              color: Theme.of(context).colorScheme.secondaryContainer,
+              color: Theme.of(context).colorScheme.secondary,
               weight: 400,
             ),
             onPressed: _sync,
           ),
         ],
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddOrderDialog,

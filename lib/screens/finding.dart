@@ -9,13 +9,15 @@ class FindingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Lista de piezas buscadas',
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
         centerTitle: true,
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
       ),
       body: piezas.isEmpty
           ? Center(

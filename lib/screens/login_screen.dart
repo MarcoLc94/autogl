@@ -408,7 +408,7 @@ class LoginScreenState extends State<LoginScreen>
           LogService.log(
               'Inicio de sesión correcto - se guarda el responseUser');
           LogService.log('Revisando credenciales y storage');
-          // await checkStorage(user, password);
+          await checkStorage(user, password);
           if (mounted) {
             setState(() {
               _isLoading = false;
@@ -514,7 +514,11 @@ class LoginScreenState extends State<LoginScreen>
     LogService.log('Comprobando autenticidad...', level: Level.trace);
     // Si el token es null, significa que el login falló
     if (token.isNotEmpty && token != "Error") {
-      toastsHelper.customToast("Validado con exito!");
+      toastsHelper.customToast(
+          "Validado con exito!",
+          Theme.of(context).brightness == Brightness.dark
+              ? ColorType.dark
+              : ColorType.blue);
       LogService.log('Se validaron con exito las credenciales',
           level: Level.trace);
       setState(() {

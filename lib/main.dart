@@ -80,6 +80,8 @@ class MyApp extends StatelessWidget {
         onSurface: const Color(0xFF222222), // Texto principal
         onSurfaceVariant: Color.fromRGBO(22, 67, 127, 1), // Texto secundario
         onError: const Color(0xFFF5F5F5),
+        inversePrimary: const Color.fromARGB(255, 201, 178, 78),
+        onPrimaryFixed: const Color.fromARGB(255, 226, 226, 226),
         brightness: Brightness.light,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -119,7 +121,9 @@ class MyApp extends StatelessWidget {
         onSurface: const Color.fromARGB(255, 56, 56, 56), // Texto principal
         onSurfaceVariant:
             const Color.fromARGB(255, 224, 224, 224), // Texto secundario
-        onError: const Color(0xFF121212),
+        onError: const Color.fromARGB(255, 97, 97, 97),
+        inversePrimary: const Color.fromARGB(255, 201, 178, 78),
+        onPrimaryFixed: const Color.fromARGB(255, 80, 80, 80),
         brightness: Brightness.dark,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
