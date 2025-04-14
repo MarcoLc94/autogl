@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'package:autogl/helpers/toast/toast_helper.dart';
+import 'package:autogl/services/auth/auth_service.dart';
 import 'package:autogl/services/logs/log.servic.dart';
+import 'package:autogl/services/orderService/order_service.dart';
 import 'package:autogl/widgets/order_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/web.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class PurchaseScreen extends StatefulWidget {
   const PurchaseScreen({super.key});
@@ -14,9 +19,56 @@ class PurchaseScreen extends StatefulWidget {
 }
 
 class _PurchaseScreenState extends State<PurchaseScreen> {
+  final baseUrl = dotenv.env['BASE_URL_ORDERS'];
   final TextEditingController _searchController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   final toasthelper = ToastsHelper();
+  final orderService = OrderService();
+  late final AuthService authservice;
+
+  @override
+  void initState() {
+    super.initState();
+    authservice = AuthService(baseUrl: baseUrl);
+    _sync();
+  }
+
+  Future<void> _sync([bool fromButton = false]) async {
+    // Log informativo
+    LogService.log("Sincronizando...", level: Level.info);
+
+    // Notificación en pantalla
+    if (fromButton) {
+      toasthelper.customToast("Sincronizando...", ColorType.blue);
+    }
+
+    try {
+      // Obtención del token (correcto)
+      final token = await authservice.getToken();
+
+      // Llamada al servicio (correcto)
+      final orders = await orderService.fetchOrders(token!);
+
+      // Actualización del estado con conversión de tipos (aquí depende de lo que necesites)
+      setState(() {
+        _orders.clear();
+        _orders.addAll(
+          orders.map(
+            (o) => o.map(
+                (key, value) => MapEntry(key.toString(), value.toString())),
+          ),
+        );
+      });
+
+      if (fromButton) {
+        // Confirmación al usuario
+        toasthelper.customToast("Órdenes actualizadas", ColorType.blue);
+      }
+    } catch (e) {
+      // Manejo de errores con notificación
+      toasthelper.customToast("Error: $e", ColorType.red);
+    }
+  }
 
   void _showAddOrderDialog() {
     final TextEditingController orderNumberController = TextEditingController();
@@ -31,10 +83,21 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(
-            "Añadir Nueva Orden",
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Añadir Nueva Orden",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.pop(context),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ],
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -69,16 +132,9 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
             ),
           ),
           actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              child: Text("Cancelar"),
-            ),
-            ElevatedButton(
+            // Botón "Registrar" (antes "Cancelar")
+            TextButton.icon(
               onPressed: () {
-                // Validar campos
                 if (orderNumberController.text.isNotEmpty &&
                     vehicleController.text.isNotEmpty &&
                     partController.text.isNotEmpty &&
@@ -102,10 +158,21 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                   );
                 }
               },
+              icon: const Icon(Icons.edit), // ícono de lápiz
+              label: const Text("Registrar"),
               style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
-              child: const Text("Guardar"),
+            ),
+
+            // Botón "Entregar" deshabilitado
+            ElevatedButton.icon(
+              onPressed: null, // deshabilitado por el momento
+              icon: const Icon(Icons.mail_outline), // ícono de sobre de carta
+              label: const Text("Entregar"),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         );
@@ -114,40 +181,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
   }
 
   // Datos hardcodeados (simulados)
-  final List<Map<String, String>> _orders = [
-    {
-      "orderNumber": "ORD-1001",
-      "vehicle": "Toyota Corolla",
-      "part": "Filtro de aceite",
-      "supplier": "Autopartes SA",
-      "amount": "150.00",
-      "currency": "USD",
-    },
-    {
-      "orderNumber": "ORD-1002",
-      "vehicle": "Honda Civic",
-      "part": "Pastillas de freno",
-      "supplier": "Repuestos Veloz",
-      "amount": "85.50",
-      "currency": "USD",
-    },
-    {
-      "orderNumber": "ORD-1003",
-      "vehicle": "Ford F-150",
-      "part": "Batería",
-      "supplier": "PowerEnergy",
-      "amount": "200.00",
-      "currency": "USD",
-    },
-    {
-      "orderNumber": "ORD-1004",
-      "vehicle": "Chevrolet Spark",
-      "part": "Llantas",
-      "supplier": "Ruedas MX",
-      "amount": "320.75",
-      "currency": "USD",
-    },
-  ];
+  final List<Map<String, String>> _orders = [];
 
   // Función para abrir la cámara
   Future<void> _attachPhoto() async {
@@ -159,13 +193,6 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
         const SnackBar(content: Text("Foto adjuntada correctamente")),
       );
     }
-  }
-
-  // Función para abrir la cámara
-  Future<void> _sync() async {
-    LogService.log("Sincronizando...", level: Level.info);
-    toasthelper.customToast("SIncronizando...", ColorType.blue);
-    //TODO: hacer funcion de actualizar con metodo GET ALL
   }
 
   @override
@@ -196,7 +223,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
               color: Theme.of(context).colorScheme.secondary,
               weight: 400,
             ),
-            onPressed: _sync,
+            onPressed: () => _sync(true),
           ),
         ],
         backgroundColor: colorScheme.primary,
@@ -236,12 +263,12 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                 itemBuilder: (context, index) {
                   final order = _orders[index];
                   return OrderCard(
-                    orderNumber: order["orderNumber"]!,
-                    vehicle: order["vehicle"]!,
-                    part: order["part"]!,
-                    supplier: order["supplier"]!,
-                    amount: order["amount"]!,
-                    currency: order["currency"]!,
+                    orderNumber: order["idOrdenCompra"]!,
+                    vehicle: order["vehiculo"]!,
+                    part: order["refaccion"]!,
+                    supplier: order["nombreProveedor"]!,
+                    amount: order["monto"]!,
+                    currency: order["moneda"]!,
                     onAttachPhoto: _attachPhoto,
                   );
                 },

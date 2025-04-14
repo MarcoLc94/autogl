@@ -11,6 +11,7 @@ import './screens/layout_screen.dart';
 import './screens/first_screen.dart';
 
 Future main() async {
+  //dotenv para enviroments
   await dotenv.load(fileName: ".env");
   runApp(
     ChangeNotifierProvider(create: (context) => AppState(), child: MyApp()),

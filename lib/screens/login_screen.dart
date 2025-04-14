@@ -380,13 +380,12 @@ class LoginScreenState extends State<LoginScreen>
 
   submit(String method) async {
     // Verifica la conectividad antes de proceder
-    LogService.log('Inicio de sesion con datos biometricos',
-        level: Level.trace);
-    bool isConnected = await _checkConnectivity();
-    LogService.log('Verificando si tenemos conexion a internet',
-        level: Level.trace);
-    if (!isConnected) return;
+    LogService.log('Inicio de sesion...', level: Level.trace);
     if (method == 'password') {
+      bool isConnected = await _checkConnectivity();
+      LogService.log('Verificando si tenemos conexion a internet',
+          level: Level.trace);
+      if (!isConnected) return;
       String user = _userController.text;
       String password = _passwordController.text;
 
@@ -494,10 +493,10 @@ class LoginScreenState extends State<LoginScreen>
   void submitBiometric(userCredential, passwordCredential) async {
     LogService.log(
         'Click en submit - Intento de inicio de sesión via biometrica');
-    // Verifica la conectividad antes de proceder
-    LogService.log('Verificando si tenemos conexion', level: Level.trace);
-    bool isConnected = await _checkConnectivity();
-    if (!isConnected) return;
+    // Verifica la conectividad antes de proceder en este caso puede logear offline
+    // LogService.log('Verificando si tenemos conexion', level: Level.trace);
+    // bool isConnected = await _checkConnectivity();
+    // if (!isConnected) return;
 
     String user = userCredential;
     String password = passwordCredential;
@@ -510,6 +509,7 @@ class LoginScreenState extends State<LoginScreen>
         level: Level.trace);
     AuthService authService = AuthService(baseUrl: baseUrl);
     String? token = await authService.login(user, password);
+    if (!mounted) return;
 
     LogService.log('Comprobando autenticidad...', level: Level.trace);
     // Si el token es null, significa que el login falló

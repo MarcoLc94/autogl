@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,23 +19,31 @@ class SidebarMenu extends StatefulWidget {
 }
 
 class SidebarMenuState extends State<SidebarMenu> {
-  late final Future<Map<String, String?>> userInfo;
+  // late final Future<Map<String, String?>> userInfo;
+  late final Future<String?> userInfo;
   bool _isCompanyExpanded = false;
 
   // Lista de empresas (simulada)
   final List<String> companies = ['Auto Elite'];
   String selectedCompany = 'Auto Elite';
 
-  Future<Map<String, String?>> getUserInfoFromShared() async {
+  // Future<Map<String, String?>> getUserInfoFromShared() async {
+  //   final shared = await SharedPreferences.getInstance();
+  //   return {
+  //     'role': shared.getString('roles'),
+  //     'username': shared.getString('userSesion'),
+  //     'email': shared.getString('userEmail') ??
+  //         'usuario@ejemplo.com', // Email simulado
+  //     'fullName': shared.getString('fullName') ??
+  //         'Usuario Ejemplo', // Nombre completo simulado
+  //   };
+  // }
+
+  Future<String?> getUserInfoFromShared() async {
     final shared = await SharedPreferences.getInstance();
-    return {
-      'role': shared.getString('roles'),
-      'username': shared.getString('userSesion'),
-      'email': shared.getString('userEmail') ??
-          'usuario@ejemplo.com', // Email simulado
-      'fullName': shared.getString('fullName') ??
-          'Usuario Ejemplo', // Nombre completo simulado
-    };
+    final userInfoString = shared.getString('userInfo');
+
+    return userInfoString != null ? jsonDecode(userInfoString) : null;
   }
 
   @override
@@ -113,7 +123,7 @@ class SidebarMenuState extends State<SidebarMenu> {
             ),
 
             // Tarjeta de información del usuario
-            FutureBuilder<Map<String, String?>>(
+            FutureBuilder<String?>(
               future: userInfo,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -148,8 +158,9 @@ class SidebarMenuState extends State<SidebarMenu> {
                                 backgroundColor: colorScheme.secondary,
                                 radius: 24,
                                 child: Text(
-                                  (userData['username'] ?? 'U')[0]
-                                      .toUpperCase(),
+                                  userData.isNotEmpty
+                                      ? userData[0].toUpperCase()
+                                      : userData,
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -163,7 +174,7 @@ class SidebarMenuState extends State<SidebarMenu> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      userData['fullName'] ?? 'Usuario',
+                                      userData.isNotEmpty ? userData : 'User',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -173,7 +184,9 @@ class SidebarMenuState extends State<SidebarMenu> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      userData['email'] ?? 'email@example.com',
+                                      userData.isNotEmpty
+                                          ? '$userData@mail.com'
+                                          : 'user@example.com',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color:
@@ -287,7 +300,7 @@ class SidebarMenuState extends State<SidebarMenu> {
 
             // Menú principal
             Expanded(
-              child: FutureBuilder<Map<String, String?>>(
+              child: FutureBuilder<String?>(
                 future: userInfo,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -295,7 +308,7 @@ class SidebarMenuState extends State<SidebarMenu> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
-                    final role = snapshot.data?['role'];
+                    final role = snapshot.data;
                     return ListView(
                       padding: EdgeInsets.symmetric(vertical: 8),
                       children: [

@@ -56,36 +56,40 @@ class AuthService {
 
   // Método para hacer login
   Future<String> login(String user, String password) async {
-    // print("intentando con credenciales: $user y $password");
-    // try {
-    //   final response = await http.post(Uri.parse('$baseUrl/login'),
-    //       headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded',
-    //         'Accept': 'application/json'
-    //       },
-    //       body:
-    //           'username=${Uri.encodeComponent(user)}&password=${Uri.encodeComponent(password)}');
-    //   if (response.statusCode == 200) {
-    //     final data = jsonDecode(response.body);
-    //     String token = data['token'];
-    //     String userSesion = user
-    //     String refreshToken = await getRefreshToken(token);
+    LogService.log("intentando con credenciales: $user y $password",
+        level: Level.info);
+    try {
+      final response = await http.post(Uri.parse('$baseUrl/login'),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+          },
+          body:
+              'username=${Uri.encodeComponent(user)}&password=${Uri.encodeComponent(password)}');
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        String token = data['token'];
+        String userSesion = user;
+        String refreshToken = await getRefreshToken(token);
 
-    //     print("el token es: $token");
-    //     saveTokens(token, refreshToken, user);
+        // print("el token es: $token");
+        saveTokens(token, refreshToken, userSesion);
+        saveUserSesion(userSesion);
 
-    //     return token; // Login exitoso
-    //   } else {
-    //     LogService.log("Este es el log de andres: ${response.body}",
-    //         level: Level.fatal);
-    //     return "Error"; // Login fallido
-    //   }
-    // } catch (e) {
-    //   return "Error";
-    // }
-    final prefs = await _storage;
-    await prefs.setString('userSesion', user);
-    return "123";
+        return token; // Login exitoso
+      } else {
+        LogService.log("Este es el log de andres: ${response.body}",
+            level: Level.fatal);
+        return "Error"; // Login fallido
+      }
+    } catch (e) {
+      return "Error";
+    }
+
+    //SOlo usar estas lineas para desactivar el AUTH
+    // final prefs = await _storage;
+    // await prefs.setString('userSesion', user);
+    // return "123";
   }
 
   // Método para obtener el token desde SharedPreferences
@@ -108,7 +112,17 @@ class AuthService {
     await prefs.setString('userSesion', user);
   }
 
+//PARA INFO COMPLETA
   Future<void> saveUser(Map<String, dynamic> userInfo) async {
+    SharedPreferences userData = await SharedPreferences.getInstance();
+    // Convertir el userInfo a un String (JSON)
+    String jsonString = json.encode(userInfo);
+    // Guardarlo en SharedPreferences
+    await userData.setString('userInfo', jsonString);
+  }
+
+//PARA SOLO SU USERNAME
+  Future<void> saveUserSesion(String userInfo) async {
     SharedPreferences userData = await SharedPreferences.getInstance();
     // Convertir el userInfo a un String (JSON)
     String jsonString = json.encode(userInfo);

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:autogl/widgets/generic_toggle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../services/auth/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -15,30 +18,21 @@ class Navbar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  final AuthService authService =
-      AuthService(baseUrl: 'https://learn.bitfarm.mx/api');
+  final AuthService authService = AuthService(baseUrl: dotenv.env['BASE_URL']);
 
-  Future<Map<String, dynamic>?> getUserInfo() async {
-    // SharedPreferences userData = await SharedPreferences.getInstance();
-    // String? jsonString = userData.getString('userInfo');
+  Future<String?> getUserInfo() async {
+    SharedPreferences userData = await SharedPreferences.getInstance();
+    String? jsonString = userData.getString('userInfo');
 
-    // // Verificar si jsonString no es nulo antes de hacer el parseo
-    // if (jsonString != null) {
-    //   Map<String, dynamic> userInfo = json.decode(jsonString);
-
-    //   return userInfo;
-    // } else {
-    //   // Si jsonString es nulo, puedes devolver null o manejar el caso como desees
-    //   return null;
-    // }
-    return {
-      "token": "tu_token_jwt",
-      "user": {
-        "username": "marco",
-        "last_name": "lopez",
-        "roles": ["owner", "user"]
-      }
-    };
+    // Verificar si jsonString no es nulo antes de hacer el parseo
+    if (jsonString != null) {
+      // Map<String, dynamic> userInfo = json.decode(jsonString);
+      String userInfo = jsonDecode(jsonString);
+      return userInfo;
+    } else {
+      // Si jsonString es nulo, puedes devolver null o manejar el caso como desees
+      return null;
+    }
   }
 
   @override
@@ -89,7 +83,7 @@ class _NavbarState extends State<Navbar> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return FutureBuilder<Map<String, dynamic>?>(
+        return FutureBuilder<String?>(
           future: getUserInfo(), // Asíncrono
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,7 +95,7 @@ class _NavbarState extends State<Navbar> {
             if (!snapshot.hasData) {
               return Center(child: Text('No user data found'));
             }
-            Map<String, dynamic> userInfo = snapshot.data!;
+            String userInfo = snapshot.data!;
             return Stack(
               children: [
                 // Fondo que detecta clics fuera del modal
@@ -183,7 +177,7 @@ class _NavbarState extends State<Navbar> {
                                                     ),
                                                     SizedBox(height: 10),
                                                     Text(
-                                                      '@${userInfo['username']}',
+                                                      '@$userInfo',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -244,7 +238,7 @@ class _NavbarState extends State<Navbar> {
                                                               width: 10),
                                                           Expanded(
                                                             child: Text(
-                                                              '${userInfo['name']}',
+                                                              userInfo,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -277,7 +271,7 @@ class _NavbarState extends State<Navbar> {
                                                               width: 10),
                                                           Expanded(
                                                             child: Text(
-                                                              '${userInfo['email']}',
+                                                              '$userInfo@mail.com',
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -437,10 +431,12 @@ class _NavbarState extends State<Navbar> {
                                                     removeToken();
                                                     if (!mounted) return;
                                                     Navigator.pop(
+                                                        // ignore: use_build_context_synchronously
                                                         context); // Cerrar el modal
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context, '/');
+                                                    Navigator.pushReplacementNamed(
+                                                        // ignore: use_build_context_synchronously
+                                                        context,
+                                                        '/');
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment:
